@@ -1,5 +1,4 @@
 
-from asyncio.windows_events import NULL
 import whois
 import dns.resolver
 from django.http import HttpResponseRedirect

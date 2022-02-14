@@ -1,1 +1,1 @@
-web: python manage.py runserver 54.224.34.30:$PORT
+worker: python manage.py runserver 54.224.34.30:$PORT
