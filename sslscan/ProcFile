@@ -1,1 +1,1 @@
-web: gunicorn sslscan.wsgi
+web: python website/manage.py runserver 54.224.34.30:$PORT
