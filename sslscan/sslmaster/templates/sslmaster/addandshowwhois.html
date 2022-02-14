@@ -1,0 +1,59 @@
+{% extends 'sslmaster/base.html' %}
+{% block content %}
+
+<div class="container mt-5">  
+  <h1 class="text-center alert"style="background: linear-gradient(to right, #EBF0F5 0%, #F1F6FB 100%);">NPCI DOMAIN SCANNER WHOIS
+    <img src="../static/sslmaster/images/favicon.png">
+    <button style="float: right; background-color: #E5EAEF;" type="button" class="btn border"onclick="location.href = '/'">Switch to SSL</button>
+    <button style="float: left; background-color: #E5EAEF;" type="button" class="btn border"onclick="location.href = '/dns'">Switch to DNS_Resolve</button>
+  </h2>
+<br>
+<form action="/whois" method="post">
+  {% csrf_token %}
+<div class="input-group mb-2">
+  <input type="text" class="form-control" name="addhost" placeholder="Add/Delete Hostnames" aria-label="Recipient's username" aria-describedby="basic-addon2">
+  <div class="input-group-append border border-danger">
+    <button class="btn  btn-success" name="add" type="submit">Add</button>
+    <button class="btn  btn-danger" name="delete" type="submit">Delete</button>
+</div>
+</div></form>
+</div>
+
+<div class="px-4">
+<table style="align-content: center;" class="text-center table table-curved table-borderless table-bordered">
+  <thead class=""style="background-color: #F1F6FB;">
+    <tr style="text-align: center; vertical-align: middle;">
+      <th scope="col">#</th>
+      <th scope="col">HostName</th>
+      <th scope="col">Registrar</th>
+      <th scope="col">Registrar_URL</th>
+      <th scope="col">Country</th>
+      <th scope="col">IANA ID</th>
+      <th scope="col">Expiry_Date</th>
+      <th scope="col">Email</th>
+      <th scope="col">Organisation</th> 
+
+    </tr>
+  </thead> 
+  {% for data in dics %}
+  <tbody>
+    <tr style="text-align: center; vertical-align: middle;">
+      <td>{{ data.id }}</td>
+      <td>{{ data.hostname }}</td>
+      <td>{{ data.registrar }}</td>
+      <td>{{ data.registrarurl }}</td>
+      <td>{{ data.country }}</td>
+      <td>{{ data.iana }}</td>
+      <td>{{ data.enddate }}</td>
+      <td>
+        {% for x in data.email %}
+        {{ x|cut:" " }}
+        {% endfor %}
+      </td>
+      <td>{{ data.organisation }}</td>
+    </tr>
+  </tbody>
+  {% endfor %}
+</table>
+</div>
+{% endblock content %}

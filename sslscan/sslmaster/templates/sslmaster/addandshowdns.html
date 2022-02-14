@@ -1,0 +1,54 @@
+{% extends 'sslmaster/base.html' %}
+{% block content %}
+<div class="container mt-5">  
+  <h1 class="text-center alert" style="background: linear-gradient(to right, #EBF0F5 0%, #F1F6FB 100%);">NPCI DOMAIN RESOLVER
+    <img src="../static/sslmaster/images/favicon.png">
+    <button style="float: left; background-color: #E5EAEF;" type="button" class="btn border"onclick="location.href = '/'">Swith to SSL</button>
+    <button style="float: right; background-color: #E5EAEF;" type="button" class="btn border"onclick="location.href = '/whois'">Swith to WhoIS</button>
+  </h1>
+<br>
+<form action="/dns" method="post">
+  {% csrf_token %}
+<div class="input-group mb-2">
+  <input type="text" class="form-control border" name="addhost" placeholder="Add/Delete Domain" aria-label="Recipient's username" aria-describedby="basic-addon2">
+  <div class="input-group-append border border-danger">
+    <button class="btn  btn-success" name="add" type="submit">Add</button>
+    <button class="btn  btn-danger" name="delete" type="submit">Delete</button>
+  </div>
+  
+</form>
+
+<table class="table table-curved table-borderless table-bordered mt-2">
+    <thead class="" style="background-color: #F1F6FB;">
+      <tr style="text-align: center; vertical-align: middle;">
+        <th scope="col">#</th>
+        <th scope="col">HostName</th>
+        <th scope="col">Resolved_IP</th>
+        <th scope="col">Mail_Exchange-MX</th>
+
+        
+      </tr>
+    </thead> 
+    {% for data in dics %}
+    <tbody>
+        <tr style="text-align: center; vertical-align: middle;">
+        <td>{{ data.id }}</td>
+        <td>{{ data.hostname }}</td>
+        <td>
+          {% for x in data.resolve %}
+          {{ x|cut:" " }}
+          {% endfor %}
+        </td>
+        <td>
+          {% for x in data.mx %}
+          {{ x|cut:" " }}
+          <br>
+          {% endfor %}
+        </td>
+      </tr>
+    </tbody>
+    {% endfor %}
+  </table>
+</div>
+
+{% endblock content %}

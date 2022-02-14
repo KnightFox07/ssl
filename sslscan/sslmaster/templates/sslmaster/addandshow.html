@@ -1,0 +1,56 @@
+{% extends 'sslmaster/base.html' %}
+{% block content %}
+<div class="container mt-5">  
+  <h1 class="text-center alert" style="background: linear-gradient(to right, #EBF0F5 0%, #F1F6FB 100%);">NPCI SSL SCANNER
+    <img src="../static/sslmaster/images/favicon.png">
+    <button style="float: right; background-color: #E5EAEF;" type="button" class="btn border"onclick="location.href = '/whois'">Switch to WhoIS</button>
+    <button style="float: left; background-color: #E5EAEF;" type="button" class="btn border"onclick="location.href = '/dns'">Switch to DNS_Resolve</button>
+  </h1>
+<br>
+<form action="/" method="post">
+  {% csrf_token %}
+<div class="input-group mb-2">
+  <input type="text" class="form-control border" name="addhost" placeholder="Add/Delete Hostnames" aria-label="Recipient's username" aria-describedby="basic-addon2">
+  <div class="input-group-append border border-danger">
+    <button class="btn  btn-success" name="add" type="submit">Add</button>
+    <button class="btn  btn-danger" name="delete" type="submit">Delete</button>
+  </div>
+  
+</form>
+
+<table class="table table-curved table-borderless table-bordered mt-2">
+    <thead class="" style="background-color: #F1F6FB;">
+      <tr style="text-align: center; vertical-align: middle;">
+        <th scope="col">#</th>
+        <th scope="col">HostName</th>
+        <th scope="col">Issue_Date</th>
+        <th scope="col">Expiry_Date</th>
+        <th scope="col">Remaining_Days</th>
+        <th scope="col">Cert_Issuer</th>
+        <th scope="col">Cert_Protocol</th>
+        <th scope="col">Is_Expired</th>
+        
+      </tr>
+    </thead> 
+    {% for data in dics %}
+    <tbody>
+        {% if data.checkdiff < 30 %}
+        <tr style="text-align: center; vertical-align: middle; background-color: #FF7F7F;color: white;">
+          {% else %}
+          <tr style="text-align: center; vertical-align: middle;">
+         {% endif %}
+        <td>{{ data.id }}</td>
+        <td>{{ data.hostname }}</td>
+        <td>{{ data.issueDate }}</td>
+        <td>{{ data.enddate }}</td>
+        <td>{{ data.remainDays }}</td>
+        <td>{{ data.issuer }}</td>
+        <td>{{ data.protocol }}</td>
+        <td>{{ data.isexpired }}</td>
+      </tr>
+    </tbody>
+    {% endfor %}
+  </table>
+</div>
+
+{% endblock content %}
